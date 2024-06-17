@@ -1,0 +1,7 @@
+<app-usermanager
+  (sendData)="getFormData($event)"
+  [ReceivedData]="userData"
+  (removeEvent)="removeAlert($event)"
+  (addEvent)="addAlert($event)"
+  (deleteUserEvent)="deleteUser($event)"
+></app-usermanager>
