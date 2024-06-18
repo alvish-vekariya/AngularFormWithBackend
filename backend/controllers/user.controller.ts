@@ -37,4 +37,14 @@ export class userController{
         }
     }
 
+    @httpGet('/getUser')
+    async getUser(req: Request, res: Response){
+        try{
+            const userId = req.params.userId as string;
+            console.log(userId);
+            // res.send(await this.userServices.getUser(parseInt(userId as string)));
+        }catch(err: any){
+            res.send(err.message);
+        }
+    }
 }

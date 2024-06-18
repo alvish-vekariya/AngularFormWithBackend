@@ -95,7 +95,7 @@
                     </div>
                 </div>
                 <div class="row mt-2">
-                    <app-datatable [tableData]="ReceivedData" (deleteUserEvent)="deleteUser($event)"></app-datatable>
+                    <app-datatable [tableData]="ReceivedData" (deleteUserEvent)="deleteUser($event)" (updateUserEvent)="updateUser($event)"></app-datatable>
                 </div>
             </div>
         </div>

@@ -72,4 +72,11 @@ export class AppComponent implements OnInit {
     // this.userData = [...this.userData,value];
     // localStorage.setItem('userformData', JSON.stringify(this.userData));
   }
+
+  updateUser(userId: number){
+    console.log(userId, 'appcomponent');
+    this.crudService.getUser(userId).subscribe(data=>{
+      console.log(data);
+    })
+  }
 }

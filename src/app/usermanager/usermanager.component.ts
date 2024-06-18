@@ -56,4 +56,10 @@ export class UsermanagerComponent {
     // console.log(userId);
     this.deleteUserEvent.emit(userId);
   }
+
+  @Output() updateUserEvent = new EventEmitter<number>();
+  updateUser(userId: number){
+    // console.log(userId);
+    this.updateUserEvent.emit(userId);
+  }
 }

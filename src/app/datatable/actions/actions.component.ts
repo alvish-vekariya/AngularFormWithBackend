@@ -29,6 +29,8 @@ export class ActionsComponent implements ICellRendererAngularComp {
     this.params.deleteFunction(this.params.data.userId);
   }
 
-  updateMe(){}
+  updateMe(){
+    this.params.updateFunction(this.params.data.userId);
+  }
   
 }

@@ -3,6 +3,7 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
 import { ActionsComponent } from './actions/actions.component';
 import { AddressComponent } from './address/address.component';
+import { outputAst } from '@angular/compiler';
 
 @Component({
   selector: 'app-datatable',
@@ -29,11 +30,15 @@ export class DatatableComponent {
       flex: 2,
       resizable: false,
       suppressMovable: true,
+      filter : false,
       cellRenderer: ActionsComponent,
       cellRendererParams: {
         deleteFunction: (userId: number) => {
           this.deleteUser(userId);
         },
+        updateFunction: (userId: number)=>{
+          this.updateUser(userId);
+        }
       },
     },
   ];
@@ -48,5 +53,11 @@ export class DatatableComponent {
     // console.log(userId);
     this.deleteUserEvent.emit(userId);
     // this.tableData = JSON.parse(localStorage.getItem('userformData') as string);
+  }
+
+  @Output() updateUserEvent = new EventEmitter();
+  updateUser(userId: number) {
+    // console.log(userId);
+    this.updateUserEvent.emit(userId);
   }
 }
