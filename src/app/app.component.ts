@@ -19,14 +19,6 @@ export class AppComponent implements OnInit {
     this.getAllData();
   }
 
-  manageLocalStorage(){
-    if(localStorage.getItem('userformData')){
-      this.userData = JSON.parse(localStorage.getItem('userformData') as string);
-    }else{
-      this.userData = [];
-    }
-  }
-
   removeAlert(msg : string){
     console.log(msg);
   }
@@ -40,6 +32,7 @@ export class AppComponent implements OnInit {
       // const data = this.crudService.userData;
       // console.log(data);
       this.userData = data;
+      this.userUpdateData = undefined;
       // console.log(this.userData)
     },
   (error)=>{
@@ -49,34 +42,49 @@ export class AppComponent implements OnInit {
 
   deleteUser(userId: number){
     // console.log('appcomponent', userId);
-    this.crudService.deleteUserData(userId).subscribe(data=>{
-      console.log(data);
-      this.getAllData();
-    },(err)=>{
-      console.log(err);
-    })
+    if(confirm(`are you sure to delete ${userId}?`)){
+      this.crudService.deleteUserData(userId).subscribe((data:any)=>{
+        if(data.status == false){
+          alert(data.message);
+        }
+        this.userUpdateData = undefined;
+        this.getAllData();
+      },(err)=>{
+        console.log(err);
+      })
+    }
   }
 
   getFormData(value :any){
     // console.log(value);
-    this.crudService.addUserData(value).subscribe(data=>{
-      // console.log(data);
+    this.crudService.addUserData(value).subscribe((data: any)=>{
+      if(data.status == false) alert(data.message);      
+      this.userUpdateData = undefined;
       this.getAllData();
     }, (err)=>{
       console.log(err);
     })
-
-
-    // this.manageLocalStorage();
-    // localStorage.clear();
-    // this.userData = [...this.userData,value];
-    // localStorage.setItem('userformData', JSON.stringify(this.userData));
   }
 
+  userUpdateData : any;
   updateUser(userId: number){
-    console.log(userId, 'appcomponent');
-    this.crudService.getUser(userId).subscribe(data=>{
-      console.log(data);
-    })
+    this.crudService.getUser(userId).subscribe((data: any)=>{
+      if(data ==false) alert(data.message);
+      this.userUpdateData = data;
+    },err=>{console.log(err)});
   }
+
+  setUpdatedUser(value: any){
+    this.crudService.updateUserData(value.userId, value).subscribe((data:any)=>{
+      // console.log(data);
+      if(data.status == true){
+        alert(data.message);
+      }else{
+        alert(data.message)
+      }
+      this.userUpdateData = undefined;
+      this.getAllData();
+    }, err=> console.log(err));
+  }
+
 }

@@ -5,4 +5,6 @@
   (addEvent)="addAlert($event)"
   (deleteUserEvent)="deleteUser($event)"
   (updateUserEvent)="updateUser($event)"
+  [updateUserData] = "userUpdateData"
+  (setUpdatedUser)="setUpdatedUser($event)"
 ></app-usermanager>

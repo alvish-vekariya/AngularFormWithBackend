@@ -82,7 +82,9 @@
                             </div>
                         </div>
                         <div class="text-center mt-3">
-                            <input type="submit" value="Submit" class="btn btn-primary" [disabled]="myForm.invalid">
+                            <input type="submit" value="Submit" class="btn btn-primary" [disabled]="myForm.invalid" [hidden]="isOnUpdate">
+                            <button type="button" class="btn btn-warning" [hidden]="!isOnUpdate" (click)="update()" [disabled]="myForm.invalid">Update</button>
+                            <button type="button" class="btn btn-secondary" [hidden]="!isOnUpdate" (click)="resetForm()">Cancel</button>
                         </div>
                     </form>
                 </div>

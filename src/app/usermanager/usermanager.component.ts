@@ -27,7 +27,7 @@ export class UsermanagerComponent {
       street: ['', Validators.required],
       city:['', Validators.required],
       state: ['', Validators.required],
-      zip: ['',[ Validators.required, Validators.minLength(6), Validators.maxLength(6)]]
+      zip: ['',[ Validators.required, Validators.min(111111), Validators.max(999999)]]
     })
   }
 
@@ -61,5 +61,60 @@ export class UsermanagerComponent {
   updateUser(userId: number){
     // console.log(userId);
     this.updateUserEvent.emit(userId);
+    // this.fillUpdateFields();
   }
+
+  @Input() updateUserData : any;
+  ngOnChanges(){
+    if(this.updateUserData){
+      this.fillUpdateFileds();
+    }
+  }
+
+  isOnUpdate : boolean= false;
+  updateUserId : number = -1;
+
+  fillUpdateFileds(){
+    this.isOnUpdate = true;
+    // console.log(this.updateUserData);
+    this.updateUserId = this.updateUserData.userId;
+    this.addressList.clear();
+    // this.addAddress()
+    for(let add of this.updateUserData.addresses){
+      this.addAddress()
+    }
+    this.myForm.patchValue({
+      userId : this.updateUserData.userId,
+      username : this.updateUserData.username,
+      email : this.updateUserData.email,
+      addresses : this.updateUserData.addresses
+    })
+    this.myForm.controls.userId.disable();
+
+    // this.updateUserData.addresses.forEach((add: any, index:number) => {
+    //   if(index>0){
+    //     this.addressList.push(this.createAddress());
+    //   }
+    //   this.myForm.controls.addresses.controls[index].controls.street.patchValue(add.street)
+    //   this.myForm.controls.addresses.controls[index].controls.city.patchValue(add.city)
+    //   this.myForm.controls.addresses.controls[index].controls.state.patchValue(add.state)
+    //   this.myForm.controls.addresses.controls[index].controls.zip.patchValue(add.zip)
+    // });
+  }
+
+  resetForm(){
+    this.myForm.reset();
+    this.myForm.controls.userId.enable();
+    this.addressList.clear();
+    this.addAddress()
+    this.isOnUpdate = false;
+  }
+
+  @Output() setUpdatedUser = new EventEmitter();
+  update(){
+    this.setUpdatedUser.emit({...this.myForm.value, userId : this.updateUserId});
+    this.resetForm();
+  }
+
+  
 }

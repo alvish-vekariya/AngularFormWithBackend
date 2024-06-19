@@ -24,11 +24,13 @@ export class CrudService {
     return this.http.post(this.url + "addUser", value);
   }
 
-  updateUserData(value: any){
-    return this.http.post(this.url+ `updateUser`, value);
+  updateUserData(userId:number,value: any){
+    // console.log(userId, value);
+    return this.http.put(this.url+ `updateUser?userId=${userId}`, value);
   }
 
   getUser(userId: number){
+    // console.log(userId);
     return this.http.get(this.url + `getUser?userId=${userId}`);
   }
 }
